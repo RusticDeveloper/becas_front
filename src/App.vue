@@ -1,16 +1,13 @@
 <script setup>
-import Toolbar_Component from './components/Toolbar_Component.vue'
-import InicioAdmin from './Views/InicioAdmin.vue'
+import { RouterView } from 'vue-router'
+const islogged = false
 </script>
 
 <template>
-  <header>
-    <Toolbar_Component />
+  <header v-if="islogged">
+    <slot></slot>
   </header>
-
-  <main>
-    <InicioAdmin />
-  </main>
+  <RouterView />
 </template>
 
 <style scoped></style>

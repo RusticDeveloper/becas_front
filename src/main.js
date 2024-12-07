@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 
 // * libreria de componentes de prime
 import PrimeVue from 'primevue/config'
+import { Form } from '@primevue/forms'
 import Aura from '@primevue/themes/aura'
 import 'primeicons/primeicons.css'
 import { definePreset } from '@primevue/themes'
@@ -18,9 +19,28 @@ import ToggleButton from 'primevue/togglebutton'
 import Drawer from 'primevue/drawer'
 import Avatar from 'primevue/avatar'
 import Editor from 'primevue/editor'
+import InputText from 'primevue/inputtext'
+import Password from 'primevue/password'
+import Stepper from 'primevue/stepper'
+import StepList from 'primevue/steplist'
+import StepPanels from 'primevue/steppanels'
+import StepItem from 'primevue/stepitem'
+import Step from 'primevue/step'
+import StepPanel from 'primevue/steppanel'
+import Divider from 'primevue/divider'
+import Panel from 'primevue/panel'
+import FloatLabel from 'primevue/floatlabel'
+import InputMask from 'primevue/inputmask'
+import Fieldset from 'primevue/fieldset'
+import SelectButton from 'primevue/selectbutton'
+import InputGroup from 'primevue/inputgroup'
+import InputGroupAddon from 'primevue/inputgroupaddon'
+import Select from 'primevue/select'
 
 //  * componente principal para la aplicacion
 import App from './App.vue'
+import router from './router'
+import ToastService from 'primevue/toastservice'
 
 const app = createApp(App)
 // *define un estilo personalizado
@@ -124,7 +144,26 @@ app.component('ToggleButton', ToggleButton)
 app.component('Drawer', Drawer)
 app.component('Avatar', Avatar)
 app.component('Editor', Editor)
+app.component('InputText', InputText)
+app.component('Password', Password)
+app.component('Stepper', Stepper)
+app.component('StepList', StepList)
+app.component('StepPanels', StepPanels)
+app.component('Step', Step)
+app.component('StepItem', StepItem)
+app.component('StepPanel', StepPanel)
+app.component('Divider', Divider)
+app.component('Panel', Panel)
+app.component('FloatLabel', FloatLabel)
+app.component('InputMask', InputMask)
+app.component('Fieldset', Fieldset)
+app.component('SelectButton', SelectButton)
+app.component('InputGroupAddon', InputGroupAddon)
+app.component('InputGroup', InputGroup)
+app.component('Select', Select)
 
 app.use(createPinia())
+app.use(router)
+app.use(ToastService)
 
 app.mount('#app')
