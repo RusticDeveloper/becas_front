@@ -12,15 +12,18 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
-    "@primevue/forms": "^4.2.4",
+    "@primevue/auto-import-resolver": "4.2.5",
+    "@primevue/forms": "^4.2.5",
     "@primevue/themes": "^4.0.5",
+    "install": "^0.13.0",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",
-    "primevue": "^4.0.5",
+    "primevue": "^4.2.5",
     "quill": "^2.0.2",
     "tailwindcss-primeui": "^0.3.4",
     "vue": "^3.4.29",
-    "vue-router": "^4.4.3"
+    "vue-router": "^4.4.3",
+    "zod": "^3.24.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.8.0",

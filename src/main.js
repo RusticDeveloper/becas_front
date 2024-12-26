@@ -10,6 +10,8 @@ import { Form } from '@primevue/forms'
 import Aura from '@primevue/themes/aura'
 import 'primeicons/primeicons.css'
 import { definePreset } from '@primevue/themes'
+import Tooltip from 'primevue/tooltip'
+import Ripple from 'primevue/ripple'
 
 // * componentes de prime vue
 import ColorPicker from 'primevue/colorpicker'
@@ -36,65 +38,75 @@ import SelectButton from 'primevue/selectbutton'
 import InputGroup from 'primevue/inputgroup'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import Select from 'primevue/select'
+import DatePicker from 'primevue/datepicker'
+import RadioButton from 'primevue/radiobutton'
+import { RadioButtonGroup } from 'primevue'
+import Message from 'primevue/message'
+import InputNumber from 'primevue/inputnumber'
+import FileUpload from 'primevue/fileupload'
+import Textarea from 'primevue/textarea'
+import Card from 'primevue/card'
+import Toast from 'primevue/toast'
 
 //  * componente principal para la aplicacion
 import App from './App.vue'
 import router from './router'
 import ToastService from 'primevue/toastservice'
+import { FormField } from '@primevue/forms'
 
 const app = createApp(App)
 // *define un estilo personalizado
 
-const Noir = definePreset(Aura, {
+const colorPalete = definePreset(Aura, {
   semantic: {
     primary: {
-      50: '{zinc.50}',
-      100: '{zinc.100}',
-      200: '{zinc.200}',
-      300: '{zinc.300}',
-      400: '{zinc.400}',
-      500: '{zinc.500}',
-      600: '{zinc.600}',
-      700: '{zinc.700}',
-      800: '{zinc.800}',
-      900: '{zinc.900}',
-      950: '{zinc.950}'
+      50: '{teal.50}',
+      100: '{teal.100}',
+      200: '{teal.200}',
+      300: '{teal.300}',
+      400: '{teal.400}',
+      500: '{teal.500}',
+      600: '{teal.600}',
+      700: '{teal.700}',
+      800: '{teal.800}',
+      900: '{teal.900}',
+      950: '{teal.950}'
     },
     colorScheme: {
       light: {
         primary: {
-          color: '{zinc.950}',
+          color: '{teal.950}',
           inverseColor: '#ffffff',
-          hoverColor: '{zinc.900}',
-          activeColor: '{zinc.800}'
+          hoverColor: '{teal.900}',
+          activeColor: '{teal.800}'
         },
         surface: {
           0: '#ffffff',
-          50: '{zinc.50}',
-          100: '{zinc.100}',
-          200: '{zinc.200}',
-          300: '{zinc.300}',
-          400: '{zinc.400}',
-          500: '{zinc.500}',
-          600: '{zinc.600}',
-          700: '{zinc.700}',
-          800: '{zinc.800}',
-          900: '{zinc.900}',
-          950: '{zinc.950}'
+          50: '{teal.50}',
+          100: '{teal.100}',
+          200: '{teal.200}',
+          300: '{teal.300}',
+          400: '{teal.400}',
+          500: '{teal.500}',
+          600: '{teal.600}',
+          700: '{teal.700}',
+          800: '{teal.800}',
+          900: '{teal.900}',
+          950: '{teal.950}'
         },
         highlight: {
-          background: '{zinc.950}',
-          focusBackground: '{zinc.700}',
+          background: '{teal.950}',
+          focusBackground: '{teal.700}',
           color: '#ffffff',
           focusColor: '#ffffff'
         }
       },
       dark: {
         primary: {
-          color: '{zinc.50}',
-          inverseColor: '{zinc.950}',
-          hoverColor: '{zinc.100}',
-          activeColor: '{zinc.200}'
+          color: '{slate.50}',
+          inverseColor: '{slate.950}',
+          hoverColor: '{slate.100}',
+          activeColor: '{slate.200}'
         },
         surface: {
           0: '#ffffff',
@@ -125,9 +137,9 @@ const Noir = definePreset(Aura, {
 app.use(PrimeVue, {
   ripple: true,
   theme: {
-    preset: Noir,
+    preset: colorPalete,
     options: {
-      darkModeSelector: ':root.app-dark',
+      darkModeSelector: 'system',
       cssLayer: {
         name: 'primevue',
         order: 'tailwind-base, primevue, tailwind-utilities'
@@ -161,8 +173,21 @@ app.component('SelectButton', SelectButton)
 app.component('InputGroupAddon', InputGroupAddon)
 app.component('InputGroup', InputGroup)
 app.component('Select', Select)
+app.component('DatePicker', DatePicker)
+app.component('RadioButton', RadioButton)
+app.component('RadioButtonGroup', RadioButtonGroup)
+app.component('Message', Message)
+app.component('InputNumber', InputNumber)
+app.component('FileUpload', FileUpload)
+app.component('Textarea', Textarea)
+app.component('Card', Card)
+app.component('Toast', Toast)
+app.component('FormField', FormField)
+app.component('Form', Form)
 
 app.use(createPinia())
+app.directive('tooltip', Tooltip)
+app.directive('ripple', Ripple)
 app.use(router)
 app.use(ToastService)
 

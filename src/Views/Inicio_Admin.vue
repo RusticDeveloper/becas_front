@@ -11,7 +11,6 @@
 import { ref } from 'vue'
 
 const value = ref('')
-console.log(value)
 </script>
 
 <style lang="scss" scoped></style>
