@@ -112,7 +112,7 @@
               ]"
             >
               <i class="pi pi-file" />
-              <!-- * Descripciom -->
+              <!-- * Descripcion -->
             </span>
           </button>
         </div>
@@ -633,25 +633,6 @@
                   />
                 </div>
               </div>
-              <!-- * problemas de salud del grupo familiar conviviente -->
-              <div class="col-span-2">
-                <h3>Problemas de salud del grupo familiar conviviente</h3>
-                <h4>
-                  Indique si algun pariente tiene algun problema de salud o discapacidad, y tenga a
-                  mano la documentacion, que se pedira al final
-                </h4>
-                <Button label="Agregar pariente" icon="pi pi-plus" @click="add_relative" v-ripple />
-                <div v-for="relative in relatives" v-bind:key="relative.id" id="relative.id">
-                  <Relative_Health_Information />
-                  <Button
-                    type="button"
-                    label="Quitar"
-                    icon="pi pi-trash"
-                    @click="remove_relative(relative.id)"
-                    v-ripple
-                  />
-                </div>
-              </div>
               <!-- * ayuda gubernamental -->
               <div class="grid grid-cols-3">
                 <h3 class="col-span-3">¿Recibe ayuda gubernamental?</h3>
@@ -715,7 +696,7 @@
                 </template>
               </div>
             </div>
-            <pre>    {{ $form }}  </pre>
+
             <div class="flex pt-6 justify-between">
               <Button
                 label="Atras"
@@ -760,6 +741,20 @@
                     v-ripple
                   />
                 </div>
+                <!-- * valor total de ingresos mensuales de la familia -->
+                <div>
+                  <h3>Total de ingresos mensuales</h3>
+                  <InputNumber
+                    name="totalRelativeMonthlyIncome"
+                    v-model="totalRelativeMonthlyIncome"
+                    :minFractionDigits="2"
+                    :maxFractionDigits="2"
+                    :min="0"
+                    :max="1000"
+                    disabled
+                    fluid
+                  />
+                </div>
               </div>
             </div>
             <div class="flex pt-6 justify-between">
@@ -784,18 +779,52 @@
               <!-- * justificacion de la situacion actual del postulante  -->
               <FloatLabel variant="on" class="col-span-2">
                 <label for="transport">justifique su situacion actual</label>
-                <Textarea v-model="justification_postulant" rows="5" cols="30" />
+                <Textarea name="postulantJustification" rows="5" cols="30" />
+                <template v-if="$postulantJustification?.invalid">
+                  <Message
+                    v-for="(error, index) of $postulantJustification.errors"
+                    :key="index"
+                    severity="error"
+                    size="small"
+                    variant="simple"
+                    >➤ {{ error.message }}</Message
+                  >
+                </template>
               </FloatLabel>
               <!-- * justificacion de la situacion del postulante (beca discapacidad) -->
               <FloatLabel variant="on" class="col-span-2">
                 <label for="transport">justifique su situacion y trayectoria educativa</label>
-                <Textarea v-model="justification_disability" rows="5" cols="30" />
+                <Textarea name="disabilityJustification" rows="5" cols="30" />
+                <template v-if="$disabilityJustification?.invalid">
+                  <Message
+                    v-for="(error, index) of $disabilityJustification.errors"
+                    :key="index"
+                    severity="error"
+                    size="small"
+                    variant="simple"
+                    >➤ {{ error.message }}</Message
+                  >
+                </template>
+                <!-- * justificacion de los estudiantes con discapacidad -->
+                <!-- ! todo: hacer que solo se muestre cuando la se selecciona una beca por discapacidad -->
               </FloatLabel>
+              <!-- * justificacion educacional de los estudiantes con discapacidad -->
+              <!-- ! todo: hacer que solo se muestre cuando la se selecciona una beca por discapacidad -->
               <FloatLabel variant="on" class="col-span-2">
                 <label for="transport"
                   >justifique su situacion social y relacion con docentes y estudiantes</label
                 >
-                <Textarea v-model="justification_educational" rows="5" cols="30" />
+                <Textarea v-model="educationalJustification" rows="5" cols="30" />
+                <template v-if="$educationalJustification?.invalid">
+                  <Message
+                    v-for="(error, index) of $educationalJustification.errors"
+                    :key="index"
+                    severity="error"
+                    size="small"
+                    variant="simple"
+                    >➤ {{ error.message }}</Message
+                  >
+                </template>
               </FloatLabel>
             </div>
           </Fieldset>
@@ -818,20 +847,18 @@
           <Fieldset legend="Documentaciòn requerida">
             <div class="grid grid-cols-2 gap-8 py-8">
               <Message class="col-span-2">
-                suba un documento con toda la informacion requerida misma que se muestra a
-                continuacion informacion sobre cada tipo de beca
+                {{ $form.selectedScholarship?.value.description }}
               </Message>
               <!-- * Documentacion requerida -->
+              <!-- ! todo: verificar su validacion y subida al servidor  -->
               <div class="col-span-2">
                 <h3>Suba la documentacion necesaria</h3>
                 <FileUpload
-                  name="demo[]"
+                  name="documentCredentials"
                   url="/api/upload"
                   @upload="onAdvancedUpload($event)"
-                  :multiple="true"
-                  ref="photo"
-                  accept="image/*"
-                  :maxFileSize="1000000"
+                  accept="application/pdf"
+                  :maxFileSize="5242880"
                   chooseLabel="seleccionar"
                   cancelLabel="Cancelar"
                   :show-upload-button="false"
@@ -840,6 +867,18 @@
                     <span>Arrastre y suelte su el documento aqui.</span>
                   </template>
                 </FileUpload>
+                <template v-if="$documentCredentials?.invalid">
+                  <Message
+                    v-for="(error, index) of $documentCredentials.errors"
+                    :key="index"
+                    severity="error"
+                    size="small"
+                    variant="simple"
+                    >➤ {{ error.message }}</Message
+                  >
+                </template>
+                <!-- ! todo: borrar eesta linea  que sirve para visualizar el formulario -->
+                <pre>    {{ $form }}  </pre>
               </div>
             </div>
           </Fieldset>
@@ -859,16 +898,15 @@
 </template>
 
 <script setup>
-import Relative_Health_Information from '@/components/Relative_Health_Information.vue'
-import Relative_Intel from '@/components/Relative_Intel.vue'
-import Vehicle from '@/components/vehicle.vue'
-import { ref, watchEffect, reactive, computed } from 'vue'
+import Relative_Intel from '@/components/Relative_Information_Component.vue'
+import Vehicle from '@/components/Vehicle_Component.vue'
+import { ref, reactive, watchEffect } from 'vue'
 import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 import { useToast } from 'primevue/usetoast'
 
 const toast = useToast()
-const activeStep = ref(2)
+const activeStep = ref(3)
 
 // ! TODO: agregar datos iniciales del formulario
 const initialValues = reactive({
@@ -966,13 +1004,29 @@ const yesNoOption = ref([
 // const floor = ref()
 // const neigbor = ref()
 // const district = ref()
-const justification_postulant = ref()
-const justification_disability = ref()
-const justification_educational = ref()
+// const justification_postulant = ref()
+// const justification_disability = ref()
+// const justification_educational = ref()
+const monthly_expences = ref()
 const situationDescription = ref()
-// const monthly_expences = ref()
-let monthly_expences = computed(() => {
-  return (
+// let monthly_expences = computed(() => {
+//   return (
+//     initialValues.food +
+//     initialValues.rent +
+//     initialValues.electricity +
+//     initialValues.internet +
+//     initialValues.water +
+//     initialValues.telephonePayment +
+//     initialValues.medicine +
+//     initialValues.cableTv +
+//     initialValues.education +
+//     initialValues.transport
+//   )
+// })
+// suma automatica
+
+watchEffect(() => {
+  monthly_expences.value =
     initialValues.food +
     initialValues.rent +
     initialValues.electricity +
@@ -983,24 +1037,7 @@ let monthly_expences = computed(() => {
     initialValues.cableTv +
     initialValues.education +
     initialValues.transport
-  )
 })
-// suma automatica
-
-// watchEffect(() => {
-//   console.log(
-//     initialValues.food +
-//       initialValues.rent +
-//       initialValues.electricity +
-//       initialValues.internet +
-//       initialValues.water +
-//       initialValues.telephonePayment +
-//       initialValues.medicine +
-//       initialValues.cableTv +
-//       initialValues.education +
-//       initialValues.transport
-//   )
-// })
 // const food = ref(0)
 // const rent = ref(0)
 // const ligth = ref(0)
@@ -1038,16 +1075,6 @@ const add_vehicle = () => {
 }
 const remove_vehicle = (id) => {
   vehicles.value = vehicles.value.filter((c) => c.id !== id)
-}
-
-// ! agregar informacion de salud
-const relatives = ref([])
-
-const add_relative = () => {
-  relatives.value.push({ id: Date.now() })
-}
-const remove_relative = (id) => {
-  relatives.value = relatives.value.filter((c) => c.id !== id)
 }
 
 // ! agregar informacion socioenomica

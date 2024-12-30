@@ -47,6 +47,15 @@ import FileUpload from 'primevue/fileupload'
 import Textarea from 'primevue/textarea'
 import Card from 'primevue/card'
 import Toast from 'primevue/toast'
+import DataTable from 'primevue/datatable'
+import Column from 'primevue/column'
+import ColumnGroup from 'primevue/columngroup'
+import Row from 'primevue/row'
+import IconField from 'primevue/iconfield'
+import InputIcon from 'primevue/inputicon'
+import Dialog from 'primevue/dialog'
+import Knob from 'primevue/knob'
+import Image from 'primevue/image'
 
 //  * componente principal para la aplicacion
 import App from './App.vue'
@@ -145,6 +154,39 @@ app.use(PrimeVue, {
         order: 'tailwind-base, primevue, tailwind-utilities'
       }
     }
+  },
+  locale: {
+    dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+    dayNamesShort: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
+    dayNamesMin: ['Do', 'Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa'],
+    monthNames: [
+      'Enero',
+      'Febrero',
+      'Marzo',
+      'Abril',
+      'Mayo',
+      'Junio',
+      'Julio',
+      'Agosto',
+      'Septiembre',
+      'Octubre',
+      'Noviembre',
+      'Diciembre'
+    ],
+    monthNamesShort: [
+      'Ene',
+      'Feb',
+      'Mar',
+      'Abr',
+      'May',
+      'Jun',
+      'Jul',
+      'Ago',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dic'
+    ]
   }
 })
 
@@ -182,13 +224,24 @@ app.component('FileUpload', FileUpload)
 app.component('Textarea', Textarea)
 app.component('Card', Card)
 app.component('Toast', Toast)
+app.component('DataTable', DataTable)
+app.component('Column', Column)
+app.component('ColumnGroup', ColumnGroup)
+app.component('Row', Row)
+app.component('InputIcon', InputIcon)
+app.component('IconField', IconField)
+app.component('Dialog', Dialog)
 app.component('FormField', FormField)
+app.component('Knob', Knob)
+app.component('Image', Image)
+
 app.component('Form', Form)
 
 app.use(createPinia())
 app.directive('tooltip', Tooltip)
 app.directive('ripple', Ripple)
 app.use(router)
+
 app.use(ToastService)
 
 app.mount('#app')
